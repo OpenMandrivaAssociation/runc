@@ -1,0 +1,19 @@
+--- runc-0.1.1/Godeps/_workspace/src/github.com/seccomp/libseccomp-golang/seccomp_internal.go.omv~	2016-05-21 16:27:31.670680412 +0200
++++ runc-0.1.1/Godeps/_workspace/src/github.com/seccomp/libseccomp-golang/seccomp_internal.go	2016-05-21 16:28:07.114210102 +0200
+@@ -339,16 +339,6 @@ func archFromNative(a C.uint32_t) (ScmpA
+ 		return ArchARM64, nil
+ 	case C.C_ARCH_MIPS:
+ 		return ArchMIPS, nil
+-	case C.C_ARCH_MIPS64:
+-		return ArchMIPS64, nil
+-	case C.C_ARCH_MIPS64N32:
+-		return ArchMIPS64N32, nil
+-	case C.C_ARCH_MIPSEL:
+-		return ArchMIPSEL, nil
+-	case C.C_ARCH_MIPSEL64:
+-		return ArchMIPSEL64, nil
+-	case C.C_ARCH_MIPSEL64N32:
+-		return ArchMIPSEL64N32, nil
+ 	default:
+ 		return 0x0, fmt.Errorf("unrecognized architecture")
+ 	}
