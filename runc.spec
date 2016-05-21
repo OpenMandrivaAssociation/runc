@@ -58,9 +58,11 @@ GOPATH=`pwd` %make
 
 %install
 # install binary
-install -d %{buildroot}%{_bindir}
-install -p -m 755 runc %{buildroot}%{_bindir}/
+install -d %{buildroot}%{_sbindir}
+install -p -m 755 runc %{buildroot}%{_sbindir}/
+ln -s runc %{buildroot}%{_sbindir}/docker-runc
 
 %files
 %doc CONTRIBUTING.md LICENSE MAINTAINERS NOTICE README.md 
-%{_bindir}/runc
+%{_sbindir}/runc
+%{_sbindir}/docker-runc
