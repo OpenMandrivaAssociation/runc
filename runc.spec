@@ -13,7 +13,7 @@
 
 Name:           runc
 Version:        0.1.1
-Release:        1
+Release:        2
 Summary:        CLI tool for spawning and running containers
 License:        ASL 2.0
 Group:		System/Base
@@ -31,7 +31,7 @@ BuildRequires:  pkgconfig(systemd)
 BuildRequires:	pkgconfig(libsystemd-journal)
 BuildRequires:	pkgconfig(devmapper)
 BuildRequires:	btrfs-devel
-Requires:       systemd-units
+Requires:       systemd
 
 # need xz to work with ubuntu images
 # https://bugzilla.redhat.com/show_bug.cgi?id=1045220
