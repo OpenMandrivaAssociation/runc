@@ -28,7 +28,6 @@ BuildRequires:	pkgconfig(libseccomp)
 
 BuildRequires:  go-md2man
 BuildRequires:  pkgconfig(systemd)
-BuildRequires:	pkgconfig(libsystemd-journal)
 BuildRequires:	pkgconfig(devmapper)
 BuildRequires:	btrfs-devel
 Requires:       systemd
