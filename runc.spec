@@ -20,7 +20,7 @@ License:        ASL 2.0
 Group:		System/Base
 URL:            http://www.docker.com
 Source0:        https://%{import_path}/archive/v%{version}%{?pre:-%{pre}}.tar.gz
-#Patch0:		runc-0.1.1-fix-build.patch
+Patch0:		runc-1.0.0-rc2-compile.patch
 BuildRequires:  glibc-static-devel
 
 BuildRequires:  golang
