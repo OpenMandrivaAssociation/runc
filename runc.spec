@@ -10,7 +10,7 @@
 %define provider_tld com
 %define project %{name}
 %define	shortcommit 4dc5990
-%define pre rc1
+%define pre rc2
 
 Name:           runc
 Version:        1.0.0
@@ -20,7 +20,7 @@ License:        ASL 2.0
 Group:		System/Base
 URL:            http://www.docker.com
 Source0:        https://%{import_path}/archive/v%{version}%{?pre:-%{pre}}.tar.gz
-Patch0:		runc-0.1.1-fix-build.patch
+#Patch0:		runc-0.1.1-fix-build.patch
 BuildRequires:  glibc-static-devel
 
 BuildRequires:  golang
