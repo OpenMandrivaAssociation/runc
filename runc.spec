@@ -10,10 +10,12 @@
 %define provider_tld com
 %define project opencontainers
 %define	shortcommit 4dc5990
-%define pre rc3
+%define pre rc2
 
 Name:           runc
 Version:        1.0.0
+# drop me on release
+Epoch:		2
 Release:        %{?pre:0.%{pre}.}1
 Summary:        CLI tool for spawning and running containers
 License:        ASL 2.0
