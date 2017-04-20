@@ -8,9 +8,9 @@
 %define gosrc %{go_dir}/src/%{import_path}
 %define provider github
 %define provider_tld com
-%define project %{name}
+%define project opencontainers
 %define	shortcommit 4dc5990
-%define pre rc2
+%define pre rc3
 
 Name:           runc
 Version:        1.0.0
@@ -20,7 +20,7 @@ License:        ASL 2.0
 Group:		System/Base
 URL:            http://www.docker.com
 Source0:        https://%{import_path}/archive/v%{version}%{?pre:-%{pre}}.tar.gz
-Patch0:		runc-1.0.0-rc2-compile.patch
+#Patch0:		runc-1.0.0-rc2-compile.patch
 BuildRequires:  glibc-static-devel
 
 BuildRequires:  golang
@@ -50,11 +50,20 @@ according to the OCI specification.
 %setup -qn %{name}-%{version}%{?pre:-%{pre}}
 %apply_patches
 
+
 %build
+mkdir -p GOPATH
+pushd GOPATH
+    mkdir -p src/%{provider}.%{provider_tld}/%{project}
+    ln -s $(dirs +1 -l) src/%{import_path}
+popd
+pushd GOPATH/src/%{import_path}
+export GOPATH=%{gopath}:$(pwd)/GOPATH
+
 mkdir -p bfd
 ln -s %{_bindir}/ld.bfd bfd/ld
 export PATH=$PWD/bfd:$PATH
-GOPATH=`pwd` %make
+%make BUILDTAGS=""
 
 %install
 # install binary
@@ -63,6 +72,5 @@ install -p -m 755 runc %{buildroot}%{_sbindir}/
 ln -s runc %{buildroot}%{_sbindir}/docker-runc
 
 %files
-%doc CONTRIBUTING.md LICENSE MAINTAINERS NOTICE README.md 
 %{_sbindir}/runc
 %{_sbindir}/docker-runc
