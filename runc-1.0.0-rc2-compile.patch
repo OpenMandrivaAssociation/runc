@@ -1,0 +1,60 @@
+--- runc-1.0.0-rc2/Godeps/_workspace/src/github.com/seccomp/libseccomp-golang/seccomp_internal.go.omv~	2016-11-10 14:12:58.230358457 +0100
++++ runc-1.0.0-rc2/Godeps/_workspace/src/github.com/seccomp/libseccomp-golang/seccomp_internal.go	2016-11-10 14:13:24.155737266 +0100
+@@ -362,28 +362,6 @@ func archFromNative(a C.uint32_t) (ScmpA
+ 		return ArchNative, nil
+ 	case C.C_ARCH_AARCH64:
+ 		return ArchARM64, nil
+-	case C.C_ARCH_MIPS:
+-		return ArchMIPS, nil
+-	case C.C_ARCH_MIPS64:
+-		return ArchMIPS64, nil
+-	case C.C_ARCH_MIPS64N32:
+-		return ArchMIPS64N32, nil
+-	case C.C_ARCH_MIPSEL:
+-		return ArchMIPSEL, nil
+-	case C.C_ARCH_MIPSEL64:
+-		return ArchMIPSEL64, nil
+-	case C.C_ARCH_MIPSEL64N32:
+-		return ArchMIPSEL64N32, nil
+-	case C.C_ARCH_PPC:
+-		return ArchPPC, nil
+-	case C.C_ARCH_PPC64:
+-		return ArchPPC64, nil
+-	case C.C_ARCH_PPC64LE:
+-		return ArchPPC64LE, nil
+-	case C.C_ARCH_S390:
+-		return ArchS390, nil
+-	case C.C_ARCH_S390X:
+-		return ArchS390X, nil
+ 	default:
+ 		return 0x0, fmt.Errorf("unrecognized architecture")
+ 	}
+@@ -402,28 +380,6 @@ func (a ScmpArch) toNative() C.uint32_t
+ 		return C.C_ARCH_ARM
+ 	case ArchARM64:
+ 		return C.C_ARCH_AARCH64
+-	case ArchMIPS:
+-		return C.C_ARCH_MIPS
+-	case ArchMIPS64:
+-		return C.C_ARCH_MIPS64
+-	case ArchMIPS64N32:
+-		return C.C_ARCH_MIPS64N32
+-	case ArchMIPSEL:
+-		return C.C_ARCH_MIPSEL
+-	case ArchMIPSEL64:
+-		return C.C_ARCH_MIPSEL64
+-	case ArchMIPSEL64N32:
+-		return C.C_ARCH_MIPSEL64N32
+-	case ArchPPC:
+-		return C.C_ARCH_PPC
+-	case ArchPPC64:
+-		return C.C_ARCH_PPC64
+-	case ArchPPC64LE:
+-		return C.C_ARCH_PPC64LE
+-	case ArchS390:
+-		return C.C_ARCH_S390
+-	case ArchS390X:
+-		return C.C_ARCH_S390X
+ 	case ArchNative:
+ 		return C.C_ARCH_NATIVE
+ 	default:
