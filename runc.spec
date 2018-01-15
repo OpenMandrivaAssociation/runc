@@ -10,7 +10,7 @@
 %define provider_tld com
 %define project opencontainers
 %define	shortcommit 4dc5990
-%define pre rc2
+%define pre rc4
 
 Name:           runc
 Version:        1.0.0
