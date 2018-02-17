@@ -35,7 +35,7 @@ ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le %{mips} s390x
 BuildRequires: %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 BuildRequires: pkgconfig(libseccomp)
 BuildRequires: go-md2man
-BuildRequires:
+BuildRequires: go
 BuildRequires: glibc-static-devel
 
 %if ! 0%{?with_bundled}
