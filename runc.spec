@@ -172,7 +172,7 @@ sed -i '/\#\!\/bin\/bash/d' contrib/completions/bash/%{name}
 %install
 install -d -p %{buildroot}%{_bindir}
 install -p -m 755 %{name} %{buildroot}%{_bindir}
-ln -s %{name} %{buildroot}%{_sbindir}/docker-runc
+ln -s %{name} %{buildroot}%{_bindir}/docker-runc
 
 # generate man pages
 man/md2man-all.sh
@@ -257,7 +257,7 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 
 %files
 %{_bindir}/%{name}
-%{_sbindir}/docker-runc
+%{_bindir}/docker-runc
 %{_mandir}/man8/%{name}*
 %{_datadir}/bash-completion/completions/%{name}
 
