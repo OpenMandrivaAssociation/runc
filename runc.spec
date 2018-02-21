@@ -58,6 +58,7 @@ BuildRequires: golang(github.com/vishvananda/netlink)
 BuildRequires: golang(github.com/vishvananda/netlink/nl)
 %endif
 #Requires: criu
+Obsoletes: runc < 1.0.0-0.rc2.2
 
 %description
 The runc command can be used to start containers which are packaged
