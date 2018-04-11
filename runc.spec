@@ -30,7 +30,6 @@ License: ASL 2.0
 URL:	 %{git0}
 Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 
-ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le %{mips} s390x
 # If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
 BuildRequires: %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 BuildRequires: pkgconfig(libseccomp)
