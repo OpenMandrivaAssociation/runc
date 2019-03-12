@@ -1,11 +1,11 @@
 %global with_devel 0
 %global with_bundled 1
 %global with_check 0
-
-%global with_debug 0
 %global with_unit_test 0
+%global with_debug 1
 
 %if 0%{?with_debug}
+%global _find_debuginfo_dwz_opts %{nil}
 %global _dwz_low_mem_die_limit 0
 %else
 %global debug_package   %{nil}
@@ -19,23 +19,30 @@
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
 %global git0 https://github.com/opencontainers/runc
-%global commit0 871ba2e58e24314d1fab4517a80410191ba5ad01
+%global commit0 2b18fe1d885ee5083ef9f0838fee39b62d653e30
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-Name:	 %{repo}
+Name: %{repo}
+Epoch: 2
 Version: 1.0.0
-Release: 30.rc5.git%{shortcommit0}%{?dist}
+Release: 81.dev.git%{shortcommit0}%{?dist}
 Summary: CLI for running Open Containers
 License: ASL 2.0
-URL:	 %{git0}
+URL: %{git0}
 Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Patch0: 1807.patch
 
+# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
+#ExclusiveArch: %%{?go_arches:%%{go_arches}}%%{!?go_arches:%%{ix86} x86_64 %%{arm}}
+ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le %{mips} s390x znver1
 # If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
 BuildRequires: %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 BuildRequires: pkgconfig(libseccomp)
 BuildRequires: go-md2man
 BuildRequires: go
 BuildRequires: glibc-static-devel
+BuildRequires: make
+BuildRequires: git
 
 %if ! 0%{?with_bundled}
 BuildRequires: golang(github.com/Sirupsen/logrus)
@@ -56,8 +63,11 @@ BuildRequires: golang(github.com/syndtr/gocapability/capability)
 BuildRequires: golang(github.com/vishvananda/netlink)
 BuildRequires: golang(github.com/vishvananda/netlink/nl)
 %endif
-#Requires: criu
-Obsoletes: runc < 1.0.0-0.rc2.2
+Requires(pre): container-selinux >= 2:2.2-2
+
+%ifnarch s390x
+Recommends: criu
+%endif
 
 %description
 The runc command can be used to start containers which are packaged
@@ -153,7 +163,7 @@ providing packages with %{import_path} prefix.
 %endif
 
 %prep
-%setup -q -n %{name}-%{commit0}
+%autosetup -Sgit -n %{name}-%{commit0}
 
 %build
 mkdir -p GOPATH
@@ -165,14 +175,13 @@ popd
 pushd GOPATH/src/%{import_path}
 export GOPATH=%{gopath}:$(pwd)/GOPATH
 
-make BUILDTAGS="seccomp" all
+make BUILDTAGS="seccomp selinux" all
 
 sed -i '/\#\!\/bin\/bash/d' contrib/completions/bash/%{name}
 
 %install
 install -d -p %{buildroot}%{_bindir}
 install -p -m 755 %{name} %{buildroot}%{_bindir}
-ln -s %{name} %{buildroot}%{_bindir}/docker-runc
 
 # generate man pages
 man/md2man-all.sh
@@ -183,6 +192,8 @@ install -p -m 0644 man/man8/*.8 %{buildroot}%{_mandir}/man8/.
 # install bash completion
 install -d -p %{buildroot}%{_datadir}/bash-completion/completions
 install -p -m 0644 contrib/completions/bash/%{name} %{buildroot}%{_datadir}/bash-completion/completions
+
+ln -s %{name} %{buildroot}%{_bindir}/docker-runc
 
 # source codes for building projects
 %if 0%{?with_devel}
@@ -257,7 +268,7 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 
 %files
 %{_bindir}/%{name}
-%{_bindir}/docker-runc
+%{_bindir}/docker-%{name}
 %{_mandir}/man8/%{name}*
 %{_datadir}/bash-completion/completions/%{name}
 
