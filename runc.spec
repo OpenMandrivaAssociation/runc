@@ -63,7 +63,6 @@ BuildRequires: golang(github.com/syndtr/gocapability/capability)
 BuildRequires: golang(github.com/vishvananda/netlink)
 BuildRequires: golang(github.com/vishvananda/netlink/nl)
 %endif
-Requires(pre): container-selinux >= 2:2.2-2
 
 %ifnarch s390x
 Recommends: criu
