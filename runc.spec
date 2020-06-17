@@ -19,28 +19,26 @@
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
 %global git0 https://github.com/opencontainers/runc
-%global commit0 2b18fe1d885ee5083ef9f0838fee39b62d653e30
+%global commit0 1b97c04f9825d6f63442a4d64eab88334cdc8cd7
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name: %{repo}
 Epoch: 2
 Version: 1.0.0
-Release: 81.dev.git%{shortcommit0}%{?dist}
+Release: 238.dev.git%{shortcommit0}%{?dist}
 Summary: CLI for running Open Containers
 License: ASL 2.0
 URL: %{git0}
 Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
-Patch0: 1807.patch
+Patch1: cgroups-v2.patch
 
 # e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
 #ExclusiveArch: %%{?go_arches:%%{go_arches}}%%{!?go_arches:%%{ix86} x86_64 %%{arm}}
-ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le %{mips} s390x znver1
+ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le %{mips} s390x
 # If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
 BuildRequires: %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 BuildRequires: pkgconfig(libseccomp)
-BuildRequires: go-md2man
-BuildRequires: go
-BuildRequires: glibc-static-devel
+#BuildRequires: go-md2man
 BuildRequires: make
 BuildRequires: git
 
@@ -63,6 +61,7 @@ BuildRequires: golang(github.com/syndtr/gocapability/capability)
 BuildRequires: golang(github.com/vishvananda/netlink)
 BuildRequires: golang(github.com/vishvananda/netlink/nl)
 %endif
+Recommends: container-selinux >= 2:2.85-1
 
 %ifnarch s390x
 Recommends: criu
@@ -108,6 +107,7 @@ Requires: golang(github.com/syndtr/gocapability/capability)
 Requires: golang(github.com/vishvananda/netlink)
 Requires: golang(github.com/vishvananda/netlink/nl)
 
+Provides: oci-runtime = 1
 Provides: golang(%{import_path}/libcontainer) = %{version}-%{release}
 Provides: golang(%{import_path}/libcontainer/apparmor) = %{version}-%{release}
 Provides: golang(%{import_path}/libcontainer/cgroups) = %{version}-%{release}
@@ -183,16 +183,14 @@ install -d -p %{buildroot}%{_bindir}
 install -p -m 755 %{name} %{buildroot}%{_bindir}
 
 # generate man pages
-man/md2man-all.sh
+#man/md2man-all.sh
 
 # install man pages
-install -d -p %{buildroot}%{_mandir}/man8
-install -p -m 0644 man/man8/*.8 %{buildroot}%{_mandir}/man8/.
+#install -d -p %{buildroot}%{_mandir}/man8
+#install -p -m 0644 man/man8/*.8 %{buildroot}%{_mandir}/man8/.
 # install bash completion
 install -d -p %{buildroot}%{_datadir}/bash-completion/completions
 install -p -m 0644 contrib/completions/bash/%{name} %{buildroot}%{_datadir}/bash-completion/completions
-
-ln -s %{name} %{buildroot}%{_bindir}/docker-runc
 
 # source codes for building projects
 %if 0%{?with_devel}
@@ -266,9 +264,10 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 %{!?_licensedir:%global license %doc}
 
 %files
+%license LICENSE
+%doc MAINTAINERS_GUIDE.md PRINCIPLES.md README.md CONTRIBUTING.md
 %{_bindir}/%{name}
-%{_bindir}/docker-%{name}
-%{_mandir}/man8/%{name}*
+#% {_mandir}/man8/%{name}*
 %{_datadir}/bash-completion/completions/%{name}
 
 %if 0%{?with_devel}
