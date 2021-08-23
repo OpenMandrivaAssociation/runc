@@ -7,6 +7,7 @@
 %if 0%{?with_debug}
 %global _find_debuginfo_dwz_opts %{nil}
 %global _dwz_low_mem_die_limit 0
+%global _empty_manifest_terminate_build 0
 %else
 %global debug_package   %{nil}
 %endif
@@ -19,13 +20,13 @@
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
 %global git0 https://github.com/opencontainers/runc
-%global commit0 544048b865d05bb292ae84d0a530c0ecead026d7
+%global commit0 52b36a2dd837e8462de8e01458bf02cf9eea47dd
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name: %{repo}
 Epoch: 2
-Version: 1.0.0
-Release: 337.dev.git%{shortcommit0}%{?dist}
+Version: 1.0.2
+Release: 1
 Summary: CLI for running Open Containers
 License: ASL 2.0
 URL: %{git0}
