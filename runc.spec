@@ -20,12 +20,12 @@
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
 %global git0 https://github.com/opencontainers/runc
-%global commit0 52b36a2dd837e8462de8e01458bf02cf9eea47dd
+%global commit0 a916309fff0f838eb94e928713dbc3c0d0ac7aa4
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name: %{repo}
 Epoch: 2
-Version: 1.0.2
+Version: 1.1.2
 Release: 1
 Summary: CLI for running Open Containers
 License: ASL 2.0
