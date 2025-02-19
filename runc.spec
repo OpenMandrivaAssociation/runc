@@ -19,18 +19,14 @@
 # https://github.com/opencontainers/runc
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
-%global git0 https://github.com/opencontainers/runc
-%global commit0 a916309fff0f838eb94e928713dbc3c0d0ac7aa4
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-Name: %{repo}
-Epoch: 2
-Version: 1.1.2
+Name: runc
+Version: 1.2.5
 Release: 1
 Summary: CLI for running Open Containers
 License: ASL 2.0
-URL: %{git0}
-Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+URL: https://github.com/opencontainers/runc
+Source0: https://github.com/opencontainers/runc/archive/refs/tags/v%{version}.tar.gz
 
 # e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
 #ExclusiveArch: %%{?go_arches:%%{go_arches}}%%{!?go_arches:%%{ix86} x86_64 %%{arm}}
@@ -162,7 +158,7 @@ providing packages with %{import_path} prefix.
 %endif
 
 %prep
-%autosetup -Sgit -n %{name}-%{commit0}
+%autosetup -Sgit
 
 %build
 mkdir -p GOPATH
