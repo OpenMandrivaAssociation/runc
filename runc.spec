@@ -21,7 +21,7 @@
 %global import_path %{provider_prefix}
 
 Name: runc
-Version: 1.3.0
+Version: 1.3.3
 Release: 1
 Summary: CLI for running Open Containers
 License: ASL 2.0
